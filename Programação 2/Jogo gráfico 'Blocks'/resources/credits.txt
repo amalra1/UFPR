@@ -1,0 +1,6 @@
+Blocks design: 
+  limbusdev / Georg Eckert;
+
+Backgrounds:
+  Luis Zuno (@ansimuz);
+  
