@@ -1,0 +1,51 @@
+.left-side {
+
+    position: fixed;
+    display: inline-block;
+    overflow: scroll;
+    
+    height: 100%;
+    width: 20%;
+    background-color: rgb(37, 36, 36);
+
+    text-align: center;
+    font-family: 'Fira Code', monospace;
+}
+
+h1 {
+
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: rgba(0, 228, 228,  0.603);
+}
+
+.img-pedro {
+
+    width: 181px;
+    margin-top: 28px;
+    border: 5px solid rgb(0, 0, 0);
+}
+
+.navigation {
+
+    margin-top: 30%;
+    line-height: 40px;
+}
+
+.indexes {
+
+    display: block;
+    text-decoration: none;
+
+    font-size: 22px;
+    color: rgb(0, 228, 228);
+    font-weight: bold;    
+}
+
+.indexes:hover {
+
+    text-decoration-color: rgb(143, 143, 143);
+    text-decoration-line: underline;
+    transform: scale(1.06);
+}

@@ -1,0 +1,43 @@
+Olá! Neste arquivo README te ensinarei como realizar os comandos nas tabelas desta pasta.
+
+Para rodar o programa, execute o seguinte comando dentro desta pasta, a 'truby/':
+    
+    ruby tableOps.rb
+
+Agora no programa, você terá acesso a operações com 4 tabelas: 'hospitals', 'doctors', 'bosses' e 'rooms'.
+A estrutura basica dos comandos eh assim:
+
+< operação > < tabela > { atributo = valor }
+Onde:
+=========================================================================
+    < operação > pode ser "insere", "altera", "exclui", "lista" e "info";
+    < tabela > indica o nome da tabela;
+    { ... } indica repetição;
+    atributo = valor indica o valor do atributo envolvido na operação;
+=========================================================================
+
+Ao executar a operacao "info", o terminal te mostrara quais os atributos
+necessarios para inserir uma linha em uma coluna, por exemplo:
+
+--> 'insere doctors name="Pedro" lastName="Santos" area="Neurology" phone="5554321" admissionYear="2008" hospitalName="+U"'
+
+As insercoes somente serao realizadas com todos os atributos passados.
+
+Mais exemplos:
+
+--> altera doctors name="Pedro" lastName="Santos"
+ localizado! Agora digite os novos parametros para esta linha:
+--> lastName="Dos Santos"
+
+--> exclui doctors name="Pedro" admissionYear="2008";
+
+--> lista rooms;
+
+===============================
+
+Algumas tabelas possuem relacoes entre si, por exemplo, doutores podem trabalhar em varios hospitais, tanto como,
+um hospital pode ter varios doutores.
+Porem, por seguranca, voce so pode inserir o doutor em UM hospital usando o comando 'insere', como no exemplo acima.
+Se deseja adicionar um outro hospital para esse doutor, chame o comando 'altera', e nos novos atributos, passe mais um hospitalName="nome", desde que ele esteja presente na tabela hospitais.
+
+===============================

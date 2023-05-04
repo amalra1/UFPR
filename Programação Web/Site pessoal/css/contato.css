@@ -1,0 +1,92 @@
+.right-side {
+
+    display: inline-block;
+    background-color: rgb(68, 68, 68);
+
+    position: absolute;
+    top: 0;
+    left: 20%;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+}
+
+.main-page-title-box {
+
+    padding-top: 40px;
+    text-align: center;
+}
+
+.main-page-title {
+
+    font-size: 40px;
+    font-weight: bold;
+    font-family: 'Fira Code', monospace;
+    color: azure;
+}
+
+.main-page-info {
+
+    padding-top: 100px;
+    padding-left: 15px;
+}
+
+.contact-list {
+
+    margin-top: 20px;
+    font-family: helvetica;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.contact {
+
+    display: flex;
+}
+
+.link {
+
+    margin-top: 25px;
+    margin-left: 20px;
+    font-family: helvetica;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+.link:hover {
+
+    transform: scale(1.06);
+}
+
+.img-email {
+
+    width: 70px;
+    margin-right: 20px;
+}
+
+.img-lattes-blue {
+
+    margin-top: 10px;
+    width: 70px;
+}
+
+.img-telephone {
+
+    width: 60px;
+    margin-top: 15px;
+    margin-left: 5px;
+}
+
+.tel-text {
+
+    margin-top: 30px;
+    margin-left: 30px;
+}
+
+.img-linkedin {
+
+    margin-top: 20px;
+    margin-left: 5px;
+    width: 60px;
+}

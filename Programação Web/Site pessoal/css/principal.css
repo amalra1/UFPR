@@ -1,0 +1,130 @@
+.right-side { 
+ 
+    display: inline-block; 
+    background-color: rgb(68, 68, 68); 
+ 
+    position: absolute; 
+    top: 0; 
+    left: 20%; 
+    bottom: 0; 
+    right: 0; 
+    overflow: auto;
+} 
+ 
+.main-page-title-box { 
+ 
+    display: flex; 
+    justify-content: center; 
+    padding-top: 40px; 
+} 
+ 
+.main-page-title { 
+ 
+    font-size: 40px; 
+    font-weight: bold; 
+    font-family: helvetica; 
+    color: azure; 
+    padding-right: 10px; 
+} 
+ 
+.img-lattes { 
+    background-color: rgb(202, 201, 201); 
+    border: 2px solid black; 
+    width: 50px; 
+} 
+ 
+.img-lattes:hover { 
+    transform: scale(1.06); 
+} 
+ 
+.main-page-subtitle { 
+ 
+    font-size: 25px; 
+    font-family: helvetica; 
+    font-style: italic; 
+    font-weight: bold; 
+    text-align: center; 
+    color: rgb(182, 182, 182); 
+} 
+ 
+.main-page-info { 
+ 
+    padding-top: 100px; 
+    padding-left: 15px; 
+} 
+ 
+.info-name { 
+ 
+    font-size: 25px; 
+    font-family: helvetica; 
+    font-weight: bold; 
+    color: rgb(0, 228, 228); 
+    padding-top: 35px; 
+} 
+ 
+.areas-info { 
+    padding-left: 30px; 
+    list-style-type: square; 
+} 
+ 
+.info { 
+ 
+    padding-top: 15px; 
+    padding-left: 10px; 
+    font-size: 17px; 
+    font-family: helvetica; 
+    color: rgb(255, 255, 255); 
+} 
+ 
+.languages, .so, .tools { 
+ 
+    margin-top: 20px; 
+} 
+ 
+.img-html { 
+ 
+    width: 70px; 
+    padding-top: 10px; 
+    margin-right: 10px; 
+} 
+ 
+.img-css { 
+ 
+    width: 50px; 
+    margin-right: 10px; 
+} 
+ 
+.img-c { 
+ 
+    width: 55px; 
+    margin-right: 10px; 
+    margin-left: 10px; 
+} 
+ 
+.img-linux { 
+ 
+    width: 70px; 
+} 
+ 
+.img-windows { 
+ 
+    width: 55px; 
+    padding-left: 10px; 
+} 
+ 
+.img-vscode { 
+ 
+    width: 60px; 
+    margin-right: 20px; 
+} 
+ 
+.img-vegas { 
+ 
+    width: 60px; 
+    margin-right: 10px; 
+} 
+ 
+.img-excel { 
+ 
+    width: 65px; 
+}
