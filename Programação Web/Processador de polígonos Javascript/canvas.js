@@ -111,19 +111,38 @@ function addPoint(mouse) {
 
 function poligonoValido (vertices)
 {
-    return (vertices.value > 8 || vertices.value < 3)
+    return (vertices.value >= 3 && vertices.value <= 8)
 }
 
 // Cria poligono na tela baseado no numero de lados escrito
 function criaPoligono() 
 {
+    let polySize = 50;
+    let posx, posy;
+
     // Como estamos mexendo com pontos, eh mais facil pegar
     // os vertices do que os lados
     let vertices = document.getElementById("sides-number");
 
-    if (poligonoValido(vertices)) 
+    if (vertices.value >= 3 && vertices.value <= 8) 
     {
-        n_points = vertices.value;
+        //ctx.fillStyle = '#f00';
+        ctx.beginPath();
+        ctx.lineWidth = 8;
+        ctx.moveTo(canvas.width/2, canvas.width/2);
+        for (let i = 1; i < vertices.value; i++)
+        {
+            posx = (Math.random() * (canvas.width - polySize));
+            posy = (Math.random() * (canvas.height - polySize));
+
+            ctx.lineTo(posx, posy);
+        }
+        ctx.closePath();
+        ctx.stroke();
+        //ctx.fill();
+        
+    }
+        /*n_points = vertices.value;
         points = [];
     
         // Push points to array
@@ -135,12 +154,12 @@ function criaPoligono()
                 connected: [],
                 radius: 4
             });
-        }
-    } 
+        }*/
+
     else 
         alert("Impossivel criar Poligono com essa quantidade de lados");
 
-    draw();
+    //draw();
 }
 
 /*
