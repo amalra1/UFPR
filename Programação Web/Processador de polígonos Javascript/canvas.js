@@ -1,11 +1,112 @@
 var canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext('2d')
-    hide = document.getElementById("hide");
-    hide_help = document.getElementById("hide_help");
+    ctx = canvas.getContext('2d');
 
-// Basic infos
+// Tamanho do canvas
 canvas.width = 600;
 canvas.height = 600;
+
+/*var points = [],
+    n_points = 2,
+    mouse = { x: 0, y: 0 }; 
+    mouse_opt = {
+        status: "up",
+        point_index: -1,
+        line: false,
+        initial_click: { x: 0, y: 0 }
+    };*/
+
+// Create an empty array to store the lines
+var lines = [];
+lines.push(createLine(canvas.width/2 - 50, canvas.width/2 + 50, canvas.height/2, canvas.height/2));
+
+
+
+
+
+// Function to create a line object
+function createLine(startX, endX, startY, endY) 
+{
+  return { startX, endX, startY, endY };
+}
+
+// Generate polygon based on the number of sides written by the user
+function criaPoligono() 
+{
+    let size = 240,
+    Xcenter = canvas.width/2,
+    Ycenter = canvas.height/2,
+    sides = document.getElementById("sides-number");
+    numberOfSides = sides.value;
+    let i;
+
+    if (numberOfSides >= 3 && numberOfSides <= 8)
+    {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.moveTo(Xcenter +  size * Math.cos(0), Ycenter +  size *  Math.sin(0));          
+
+        for (i = 1; i <= numberOfSides; i++) 
+            ctx.lineTo (Xcenter + size * Math.cos(i * 2 * Math.PI / numberOfSides), Ycenter + size * Math.sin(i * 2 * Math.PI / numberOfSides));
+
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 4;
+        ctx.stroke();
+    }
+
+    else
+        alert("Impossível gerar um polígono com essa quantidade de lados!");
+}
+
+function draw ()
+{
+    let i;
+    let line;
+
+    // Clear screen
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Draw lines
+    for (i = 0; i < lines.length; i++)
+    {
+        line = lines[i]; 
+
+        ctx.beginPath();
+        ctx.moveTo(line.startX, line.startY);
+        ctx.lineTo(line.endX, line.endY);
+        ctx.lineWidth = 4;
+        ctx.stroke();
+    }
+}
+
+// Main code
+draw();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
 ctx.globalCompositeOperation = "lighter";
 
 
@@ -109,63 +210,32 @@ function addPoint(mouse) {
 
 */
 
-function poligonoValido (vertices)
-{
-    return (vertices.value >= 3 && vertices.value <= 8)
-}
 
-// Cria poligono na tela baseado no numero de lados escrito
-function criaPoligono() 
-{
-    let polySize = 50;
-    let posx, posy;
 
-    // Como estamos mexendo com pontos, eh mais facil pegar
-    // os vertices do que os lados
-    let vertices = document.getElementById("sides-number");
 
-    if (vertices.value >= 3 && vertices.value <= 8) 
-    {
-        //ctx.fillStyle = '#f00';
-        ctx.beginPath();
-        ctx.lineWidth = 8;
-        ctx.moveTo(canvas.width/2, canvas.width/2);
-        for (let i = 1; i < vertices.value; i++)
-        {
-            posx = (Math.random() * (canvas.width - polySize));
-            posy = (Math.random() * (canvas.height - polySize));
 
-            ctx.lineTo(posx, posy);
-        }
-        ctx.closePath();
-        ctx.stroke();
-        //ctx.fill();
-        
-    }
-        /*n_points = vertices.value;
-        points = [];
-    
-        // Push points to array
-        for (var i = 0; i < n_points; i++) 
-        {
-            points.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                connected: [],
-                radius: 4
-            });
-        }*/
 
-    else 
-        alert("Impossivel criar Poligono com essa quantidade de lados");
 
-    //draw();
-}
 
-/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
+/*
 // Event for clicking on points or lines
 canvas.addEventListener('mousedown', function(e) {
     if (e.button != 2) {
