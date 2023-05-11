@@ -1,7 +1,7 @@
 var canvas = document.getElementById("canvas"),
     ctx = canvas.getContext('2d');
 
-// Tamanho do canvas
+// Canvas size
 canvas.width = 600;
 canvas.height = 600;
 
@@ -15,25 +15,22 @@ canvas.height = 600;
     };*/
 
 // Create an empty array to store the lines
-var lines = [];
+var points = [];
 var pointRadius = 6;
 
 // Variables to handle mouse events
-var mouse = { x: 0, y: 0 },
+/*var mouse = { x: 0, y: 0 },
     mouseInfo = {
         state: "NotClicked",
         PointX: -1,
         PointY: -1,
         line: false,
         initial_click: { x: 0, y: 0 }
-    };
-
+    };*/
 //------------------FUNCTIONS
-
-// Function to create a line object
-function createLine(startX, endX, startY, endY, pointRadius) 
+function createPoint(x, y)
 {
-  return { startX, endX, startY, endY, pointRadius };
+    return { x, y };
 }
 
 // Generate polygon based on the number of sides written by the user
@@ -46,35 +43,29 @@ function criaPoligono()
     numberOfSides = sides.value;
     let i;
 
-    // Zera a quantidade de linhas
-    lines = [];
+    // Set the points array to zero
+    points = [];
 
-    if (numberOfSides >= 3 && numberOfSides <= 8)
-    {
-        // Cria a primeira linha para os poligonos
-        lines.push(createLine(
-            Xcenter +  size * Math.cos(0),
-            Xcenter + size * Math.cos(1 * 2 * Math.PI / numberOfSides),
-            Ycenter +  size *  Math.sin(0),
-            Ycenter + size * Math.sin(1 * 2 * Math.PI / numberOfSides),
-            pointRadius
-            ));
-
-        for (i = 2; i <= numberOfSides; i++)
+    //if (numberOfSides >= 3 && numberOfSides <= 8)
+    //{
+        // Define the first point of the polygon
+        for (i = 1; i <= numberOfSides; i++)
         {        
-            lines.push(createLine(
-                Xcenter + size * Math.cos((i - 1) * 2 * Math.PI / numberOfSides),
-                Xcenter + size * Math.cos(i * 2 * Math.PI / numberOfSides),
-                Ycenter + size * Math.sin((i - 1) * 2 * Math.PI / numberOfSides),
+            points.push(createPoint(Xcenter + size * Math.cos(i * 2 * Math.PI / numberOfSides),
                 Ycenter + size * Math.sin(i * 2 * Math.PI / numberOfSides),
-                pointRadius
                 ));
-            }
+
+            // To add the last point
+            if (i == numberOfSides)
+                points.push(createPoint(Xcenter + size * Math.cos((i + 1)* 2 * Math.PI / numberOfSides),
+                    Ycenter + size * Math.sin((i + 1) * 2 * Math.PI / numberOfSides),
+                    ));
+        }
 
         draw();
-    }
-    else
-        alert("Impossível gerar um polígono com essa quantidade de lados!");
+    //}
+    //else
+        //alert("Impossível gerar um polígono com essa quantidade de lados!");
 }
 
 function draw ()
@@ -84,40 +75,30 @@ function draw ()
     let color = "purple";
     let pointWidth = 4;
     let pointBorderColor = "black";
-
+    let pointRadius = 6;
+    
     // Clear screen
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        ctx.lineWidth = 6;
+    
     // Draw lines
-    for (i = 0; i < lines.length; i++)
+    for (i = 1; i < points.length; i++)
     {
-        line = lines[i]; 
+        p = points[i]; 
+        ctx.lineTo(p.x, p.y);
+    }
+        ctx.stroke();
+    ctx.closePath();
 
-        // Draw the line first
+    // Draw points
+    for (i = 0; i < points.length; i++)
+    {
         ctx.beginPath();
-            ctx.moveTo(line.startX, line.startY);
-            ctx.lineTo(line.endX, line.endY);
-            ctx.lineWidth = 6;
-            ctx.stroke();
-        ctx.closePath();      
-        
-        // Now the circles
-
-        // Beginning
-        ctx.beginPath();
-            ctx.moveTo(line.startX, line.startY);
-            ctx.arc(line.startX, line.startY, line.pointRadius, 0, 2 * Math.PI);
-            ctx.fillStyle = color;
-            ctx.lineWidth = pointWidth;
-            ctx.strokeStyle = pointBorderColor;
-            ctx.stroke();
-            ctx.fill();
-        ctx.closePath();
-
-        // End
-        ctx.beginPath();
-            ctx.moveTo(line.endX, line.endY);
-            ctx.arc(line.endX, line.endY, line.pointRadius, 0, 2 * Math.PI);
+            ctx.moveTo(points[i].x, points[i].y);
+            ctx.arc(points[i].x, points[i].y, pointRadius, 0, 2 * Math.PI);
             ctx.fillStyle = color;
             ctx.lineWidth = pointWidth;
             ctx.strokeStyle = pointBorderColor;
@@ -127,53 +108,19 @@ function draw ()
     }
 }
 
-// Event that checks if mouse was clicked on a line or a point
-/*
-function handleMouseDown(e)
-{
-    if (e.button != 2) 
-    {
-        mouse.x = e.clientX + window.scrollX;
-        mouse.y = e.clientY + window.scrollY;
-        mouse_opt.status = "down";
-    
-        // Save index of the clicked point
-        for (var i = 0; i < points.length; i++) 
-        {
-            if ((mouse.x <= points[i].x + points[i].radius + 6) && (mouse.x >= points[i].x - points[i].radius - 6)
-                && (mouse.y >= points[i].y - points[i].radius - 6) && (mouse.y <= points[i].y + points[i].radius + 6)) 
-            {
-                mouse_opt.point_index = i;
-                break;
-            }
-        }  
-        
-        // Save coordenates if an line is clicked
-        for (let value = 0; value <= 8; value++) 
-        {
-            if((ctx.isPointInStroke(mouse.x+value, mouse.y+value) || ctx.isPointInPath(mouse.x+value, mouse.y+value)) && mouse_opt.point_index == -1) 
-            {
-                mouse_opt.line = true;
-                mouse_opt.initial_click.x = mouse.x;
-                mouse_opt.initial_click.y = mouse.y;
-                break;
-            }
-        }
-    }
-}*/
-
 // ------------------EVENTS
-/*
-canvas.addEventListener("mousedown", handleMouseDown);
-canvas.addEventListener('mouseup', handleMouseUp);
-canvas.addEventListener('mousemove', handleMouseMove);
-*/
 
-
-// Add the first line to be drawn
-lines.push(createLine(canvas.width/2 - 200, canvas.width/2 + 200, canvas.height/2, canvas.height/2, pointRadius));
+//canvas.addEventListener("mousedown", handleMouseDown);
+//canvas.addEventListener('mouseup', handleMouseUp);
+//canvas.addEventListener('mousemove', handleMouseMove);
 
 // Main code
+
+// Add first point
+points.push(createPoint(canvas.width/2 + 240 * Math.cos(0), canvas.width/2 + 240 *  Math.sin(0)));
+points.push(createPoint(canvas.width/2 + 240 * Math.cos(1 * 2 * Math.PI / 2),
+                canvas.width/2 + 240 * Math.sin(1 * 2 * Math.PI / 2),
+                ));
 draw();
 
 
