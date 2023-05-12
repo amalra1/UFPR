@@ -1,5 +1,6 @@
 var canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext('2d');
+    ctx = canvas.getContext('2d'),
+    canvasRect = canvas.getBoundingClientRect();
 
 // Canvas size
 canvas.width = 600;
@@ -19,14 +20,13 @@ var points = [];
 var pointRadius = 6;
 
 // Variables to handle mouse events
-/*var mouse = { x: 0, y: 0 },
+var mouse = { x: 0, y: 0 },
     mouseInfo = {
         state: "NotClicked",
-        PointX: -1,
-        PointY: -1,
+        pointIndex: -1,
         line: false,
         initial_click: { x: 0, y: 0 }
-    };*/
+    };
 //------------------FUNCTIONS
 function createPoint(x, y)
 {
@@ -46,26 +46,21 @@ function criaPoligono()
     // Set the points array to zero
     points = [];
 
-    //if (numberOfSides >= 3 && numberOfSides <= 8)
-    //{
-        // Define the first point of the polygon
-        for (i = 1; i <= numberOfSides; i++)
+    if (numberOfSides >= 3 && numberOfSides <= 8)
+    {
+        points.push(createPoint(Xcenter + size * Math.cos(0), Ycenter + size *  Math.sin(0)));
+
+        for (i = 1; i <= numberOfSides - 1; i++)
         {        
             points.push(createPoint(Xcenter + size * Math.cos(i * 2 * Math.PI / numberOfSides),
                 Ycenter + size * Math.sin(i * 2 * Math.PI / numberOfSides),
                 ));
-
-            // To add the last point
-            if (i == numberOfSides)
-                points.push(createPoint(Xcenter + size * Math.cos((i + 1)* 2 * Math.PI / numberOfSides),
-                    Ycenter + size * Math.sin((i + 1) * 2 * Math.PI / numberOfSides),
-                    ));
         }
 
         draw();
-    //}
-    //else
-        //alert("Impossível gerar um polígono com essa quantidade de lados!");
+    }
+    else
+        alert("Impossível gerar um polígono com essa quantidade de lados!");
 }
 
 function draw ()
@@ -93,6 +88,15 @@ function draw ()
         ctx.stroke();
     ctx.closePath();
 
+    // Connecting the first point to the last point
+    // cause we didn't do that in the previous loop
+    ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        ctx.lineWidth = 6;
+        ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+        ctx.stroke();
+    ctx.closePath();
+
     // Draw points
     for (i = 0; i < points.length; i++)
     {
@@ -108,19 +112,76 @@ function draw ()
     }
 }
 
+function handleMouseDown(e) 
+{
+    let i;
+    let point;
+
+    if (e.button != 2) 
+    {
+        mouse.x = e.clientX - canvasRect.left;
+        mouse.y = e.clientY - canvasRect.top;
+        mouseInfo.state = "Clicked";
+  
+        // Check if clicked on a point
+        for (i = 0; i < points.length; i++) 
+        {
+            point = points[i];
+  
+            if (isMouseOnPoint(mouse.x, mouse.y, point.x, point.y)) 
+            {
+                // Store the index of the point
+                mouseInfo.pointIndex = i;
+                break;
+            }
+        }
+    }
+}
+  
+function isMouseOnPoint(x, y, pointX, pointY) 
+{
+    let distance;
+
+    // Distance between two poins formula
+    distance = Math.sqrt((x - pointX) ** 2 + (y - pointY) ** 2);
+    console.log(x, y);
+    
+    return distance <= pointRadius + 4;
+}
+
+function handleMouseMove(e)
+{
+    let point;
+
+    if (mouseInfo.state === "Clicked" && mouseInfo.pointIndex !== -1) 
+    {
+        point = points[mouseInfo.pointIndex];
+
+        point.x = e.clientX - canvasRect.left;
+        point.y = e.clientY - canvasRect.top;
+        draw();
+    }
+}
+    
+function handleMouseUp(e) 
+{
+    mouseInfo.state = "NotClicked";
+    mouseInfo.pointIndex = -1;
+} 
+
 // ------------------EVENTS
 
-//canvas.addEventListener("mousedown", handleMouseDown);
-//canvas.addEventListener('mouseup', handleMouseUp);
-//canvas.addEventListener('mousemove', handleMouseMove);
+canvas.addEventListener("mousedown", handleMouseDown);
+canvas.addEventListener("mousemove", handleMouseMove);
+canvas.addEventListener("mouseup", handleMouseUp);
 
 // Main code
 
 // Add first point
 points.push(createPoint(canvas.width/2 + 240 * Math.cos(0), canvas.width/2 + 240 *  Math.sin(0)));
-points.push(createPoint(canvas.width/2 + 240 * Math.cos(1 * 2 * Math.PI / 2),
-                canvas.width/2 + 240 * Math.sin(1 * 2 * Math.PI / 2),
+points.push(createPoint(canvas.width/2 + 240 * Math.cos(1 * 2 * Math.PI / 2), canvas.width/2 + 240 * Math.sin(1 * 2 * Math.PI / 2),
                 ));
+
 draw();
 
 
