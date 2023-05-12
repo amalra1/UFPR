@@ -92,12 +92,15 @@ function draw ()
 
     // Connecting the first point to the last point
     // cause we didn't do that in the previous loop
-    ctx.beginPath();
-        ctx.moveTo(points[0].x, points[0].y);
-        ctx.lineWidth = lineWidth;
-        ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
-        ctx.stroke();
-    ctx.closePath();
+    //if (points.length > 2)
+    //{
+        ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            ctx.lineWidth = lineWidth;
+            ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+            ctx.stroke();
+        ctx.closePath();
+    //}
 
     // Draw points
     for (i = 0; i < points.length; i++)
@@ -114,7 +117,7 @@ function draw ()
     }
 }
 
-function handleMouseDown(e) 
+function handleLeftClick(e) 
 {
     let i;
     let startPoint, endPoint;
@@ -168,35 +171,39 @@ function handleMouseDown(e)
            //console.log(points.length);
         }
     }
+}
 
-    // Right click
-    else
+
+function handleRightClick(e) 
+{
+    // Prevent default right-click context menu
+    e.preventDefault(); 
+  
+    mouse.x = e.clientX - canvasRect.left;
+    mouse.y = e.clientY - canvasRect.top;
+    mouseInfo.state = "Clicked";
+    initialPointsLength = points.length;
+  
+    for (i = 0; i < points.length - 1; i++) 
     {
-        mouse.x = e.clientX - canvasRect.left;
-        mouse.y = e.clientY - canvasRect.top;
-        mouseInfo.state = "Clicked";
-
-        endPoint = points[0];
-
-        // Check if clicked on a point
-        for (i = 0; i < points.length - 1; i++) 
+        startPoint = points[i];
+        endPoint = points[i + 1];
+  
+        if (isMouseOnLine(mouse.x, mouse.y, startPoint.x, startPoint.y, endPoint.x, endPoint.y, lineWidth)) 
         {
-            startPoint = points[i];
-            endPoint = points[i + 1];
-        
-            if (isMouseOnLine(mouse.x, mouse.y, startPoint.x, startPoint.y, endPoint.x, endPoint.y, lineWidth))
-            {
-                addPoint(points, mouse.x, mouse.y, i);
-                //console.log(i);
-                break;
-            }
+            addPoint(points, mouse.x, mouse.y, i);
+            draw();
+            break;
         }
-
-        // Treating the last line of the polygon
-        if (isMouseOnLine(mouse.x, mouse.y, points[0].x, points[0].y, points[points.length - 1].x, points[points.length - 1].y, lineWidth))
+    }
+  
+    // Treating the last line of the polygon  
+    if (initialPointsLength > 2)
+    {
+        if (isMouseOnLine(mouse.x, mouse.y, points[0].x, points[0].y, points[points.length - 1].x, points[points.length - 1].y, lineWidth)) 
         {
             addPoint(points, mouse.x, mouse.y, points.length - 1);
-            //console.log(i);
+            draw();
         }
     }
 }
@@ -288,9 +295,12 @@ function handleMouseUp(e)
 
 // ------------------EVENTS
 
-canvas.addEventListener("mousedown", handleMouseDown);
+canvas.addEventListener("mousedown", handleLeftClick);
 canvas.addEventListener("mousemove", handleMouseMove);
 canvas.addEventListener("mouseup", handleMouseUp);
+
+// right-click
+canvas.addEventListener("contextmenu", handleRightClick);
 
 // Main code
 
