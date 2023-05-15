@@ -6,15 +6,6 @@ var canvas = document.getElementById("canvas"),
 canvas.width = 600;
 canvas.height = 600;
 
-/*
-    mouse = { x: 0, y: 0 }; 
-    mouse_opt = {
-        status: "up",
-        point_index: -1,
-        line: false,
-        initial_click: { x: 0, y: 0 }
-    };*/
-
 // Create an empty array to store the lines
 var points = [];
 var lineWidth = 6;
@@ -29,6 +20,7 @@ var mouse = { x: 0, y: 0 },
         line: false,
         initial_click: { x: 0, y: 0 }
     };
+    
 //------------------FUNCTIONS
 function createPoint(x, y)
 {
@@ -92,15 +84,12 @@ function draw ()
 
     // Connecting the first point to the last point
     // cause we didn't do that in the previous loop
-    //if (points.length > 2)
-    //{
-        ctx.beginPath();
-            ctx.moveTo(points[0].x, points[0].y);
-            ctx.lineWidth = lineWidth;
-            ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
-            ctx.stroke();
-        ctx.closePath();
-    //}
+    ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        ctx.lineWidth = lineWidth;
+        ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+        ctx.stroke();
+    ctx.closePath();
 
     // Draw points
     for (i = 0; i < points.length; i++)
@@ -135,7 +124,6 @@ function handleLeftClick(e)
         {
             // Store the index of the point
             mouseInfo.pointIndex = 0;
-            //console.log(mouseInfo.pointIndex);
             return;
         }
   
@@ -149,7 +137,6 @@ function handleLeftClick(e)
             {
                 // Store the index of the point
                 mouseInfo.pointIndex = i + 1;
-                //console.log(mouseInfo.pointIndex);
                 break;
             }
 
@@ -157,10 +144,8 @@ function handleLeftClick(e)
             {
                 // Store the index of the line
                 mouseInfo.lineIndex = i;
-                //console.log(i);
                 break;
-            }
-            
+            } 
         }
 
         // Treating the last line of the polygon
@@ -168,7 +153,6 @@ function handleLeftClick(e)
         {
             // Store the index of the line
             mouseInfo.lineIndex = points.length - 1;
-           //console.log(points.length);
         }
     }
 }
