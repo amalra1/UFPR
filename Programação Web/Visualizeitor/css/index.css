@@ -1,0 +1,64 @@
+body 
+{
+    background-color: lavender;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.title
+{
+    display: flex;
+    justify-content: center;
+    font-family: monospace;
+    font-size: 50px;
+    font-weight: bold;
+    margin-bottom: 5%;
+    margin-top: 3%;
+}
+
+.input-box
+{
+    display: flex;
+    align-items: center;
+    font-family: monospace;
+    font-size: 22px;
+}
+
+.input-text-box
+{
+    margin-left: 10px;
+}
+
+.division-line
+{
+    border: 1px black solid;
+}
+
+#info
+{
+    visibility: hidden;   
+    border: 3px solid purple; 
+}
+
+.table-box
+{
+    margin-top: 40px;
+}
+
+.row
+{
+    border: 5px purple solid;
+    display: flex;
+    padding: 10px;
+}
+
+.disciplina 
+{
+    font-family: monospace;
+    font-size: 20px;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    text-align: center;
+}
