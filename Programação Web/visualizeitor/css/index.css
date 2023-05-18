@@ -80,3 +80,14 @@ body
     padding: 10px;
     background-color: aliceblue;
 }
+
+.disciplina-empty
+{
+    font-family: monospace;
+    font-size: 20px;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+
